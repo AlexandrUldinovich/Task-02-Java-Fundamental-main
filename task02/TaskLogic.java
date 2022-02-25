@@ -19,7 +19,7 @@ class TaskLogic {
         }
     }
 
-    public static String transferToRpn(String expression) {
+    public static String ExpressionToRpn(String expression) {
         String current = "";
         Stack<Character> stack = new Stack<>();
 
@@ -74,15 +74,15 @@ class TaskLogic {
             if (getPriority(rpn.charAt(i)) == 0) {
                 while (rpn.charAt(i) != ' ' && getPriority(rpn.charAt(i)) == 0){
                     oper += rpn.charAt(i++);
-                if (i == rpn.length())
-                    break;
+                    if (i == rpn.length())
+                        break;
                 }
 
 
-            stack.push(Double.parseDouble(oper));
-            oper = new String();
+                stack.push(Double.parseDouble(oper));
+                oper = new String();
 
-        }
+            }
             if (getPriority(rpn.charAt(i)) > 1) {
                 double a = stack.pop(), b = stack.pop();
 
@@ -104,7 +104,3 @@ class TaskLogic {
     }
 
 }
-
-
-
-
