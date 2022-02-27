@@ -4,26 +4,33 @@ import java.util.Stack;
 
 class TaskLogic {
 
-    private static int getPriority(char token) {
+    public double calcExpression (String expression) {
+        String rpn = expressionToRpn (expression);
+        double result = rpnToAnswer(rpn);
+
+        return result;
+    }
+
+    private static int getPriority (char token) {
 
         if (token == '*' || token == '/') {
             return 3;
-        }else if (token == '-' || token == '+'){
+        } else if (token == '-' || token == '+') {
             return 2;
-        }else if (token == '(') {
+        } else if (token == '(') {
             return 1;
-        }else if (token == ')') {
+        } else if (token == ')') {
             return -1;
         } else {
             return 0;
         }
     }
 
-    public static String ExpressionToRpn(String expression) {
+    public String expressionToRpn (String expression) {
         String current = "";
         Stack<Character> stack = new Stack<>();
-
         int priority;
+
         for (int i = 0; i < expression.length(); i++) {
             priority = getPriority(expression.charAt(i));
 
@@ -47,6 +54,7 @@ class TaskLogic {
                 }
                 stack.push(expression.charAt(i));
             }
+
             if (priority == -1) {
                 current+=(' ');
                 while (getPriority(stack.peek()) != 1) {
@@ -61,7 +69,7 @@ class TaskLogic {
         return current;
     }
 
-    public static Double RpnToAnswer(String rpn) {
+    public Double rpnToAnswer (String rpn) {
 
         String oper = new String();
         Stack<Double> stack = new Stack<>();
@@ -72,7 +80,7 @@ class TaskLogic {
             }
 
             if (getPriority(rpn.charAt(i)) == 0) {
-                while (rpn.charAt(i) != ' ' && getPriority(rpn.charAt(i)) == 0){
+                while (rpn.charAt(i) != ' ' && getPriority(rpn.charAt(i)) == 0) {
                     oper += rpn.charAt(i++);
                     if (i == rpn.length())
                         break;
@@ -83,6 +91,7 @@ class TaskLogic {
                 oper = new String();
 
             }
+
             if (getPriority(rpn.charAt(i)) > 1) {
                 double a = stack.pop(), b = stack.pop();
 
@@ -102,5 +111,4 @@ class TaskLogic {
         }
         return stack.pop();
     }
-
 }
